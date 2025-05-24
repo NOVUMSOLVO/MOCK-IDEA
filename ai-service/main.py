@@ -1,6 +1,6 @@
 # MOCK IDEA AI Service - Public Version
 # Proprietary algorithms removed for public repository
-# Contact licensing@mockidea.com for commercial access
+# Contact contact@novumsolvo.com for commercial access
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -26,7 +26,7 @@ async def analyze_logo(request: AnalyzeLogoRequest):
     """
     raise HTTPException(
         status_code=501,
-        detail="Advanced AI analysis requires commercial license. Contact licensing@mockidea.com"
+        detail="Advanced AI analysis requires commercial license. Contact contact@novumsolvo.com"
     )
 
 @app.get("/health")

@@ -1,15 +1,17 @@
 # 🎨 MOCK IDEA - Professional Logo Mockup Generator
 
-[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Commercial-red.svg)](COMMERCIAL_LICENSE.md)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-14+-black.svg)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15+-black.svg)](https://nextjs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-blue.svg)](https://postgresql.org/)
+[![Deploy](https://img.shields.io/badge/Deploy-Render-purple.svg)](https://render.com)
 
 **MOCK IDEA** is an enterprise-grade SaaS platform that revolutionizes logo mockup creation. Transform any logo into professional mockups across hundreds of templates in seconds, powered by advanced AI analysis and real-time generation technology.
 
-> 🚀 **Live Demo**: [https://mockidea.com](https://mockidea.com)
-> 📧 **Contact**: [hello@mockidea.com](mailto:hello@mockidea.com)
+> 🚀 **Repository**: [https://github.com/NOVUMSOLVO/MOCK-IDEA](https://github.com/NOVUMSOLVO/MOCK-IDEA)
+> 🌐 **Live Demo**: Coming Soon
+> 📧 **Contact**: [contact@novumsolvo.com](mailto:contact@novumsolvo.com)
 
 ---
 
@@ -45,7 +47,7 @@
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Next.js 14** - React framework with App Router
+- **Next.js 15** - React framework with App Router
 - **TypeScript** - Type-safe development
 - **Tailwind CSS** - Utility-first CSS framework
 - **Framer Motion** - Smooth animations and transitions
@@ -83,8 +85,8 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd MOCK\ IDEA
+git clone https://github.com/NOVUMSOLVO/MOCK-IDEA.git
+cd MOCK-IDEA
 ```
 
 ### 2. Backend Setup
@@ -233,7 +235,7 @@ docker-compose down
 
 For testing purposes, use these credentials:
 - **Email**: demo@mockidea.com
-- **Password**: demo123
+- **Password**: demo1234
 
 ## 🤝 Contributing
 
@@ -245,25 +247,46 @@ For testing purposes, use these credentials:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under a Commercial License - see the [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md) file for details.
+
+**⚠️ Important**: This is proprietary software. Unauthorized copying, modification, distribution, or use is strictly prohibited.
 
 ## 🆘 Support
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](../../issues) page
+1. Check the [Issues](https://github.com/NOVUMSOLVO/MOCK-IDEA/issues) page
 2. Create a new issue with detailed information
-3. Contact support at support@mockidea.com
+3. Contact support at [contact@novumsolvo.com](mailto:contact@novumsolvo.com)
 
 ## 🗺️ Roadmap
 
-- [ ] AI-powered logo placement optimization
-- [ ] Batch mockup generation
-- [ ] Team collaboration features
-- [ ] Custom template creation
-- [ ] Mobile app
-- [ ] API for third-party integrations
+- [x] ✅ AI-powered logo analysis and positioning
+- [x] ✅ Real-time mockup generation
+- [x] ✅ OAuth authentication (Google, Microsoft, GitHub)
+- [x] ✅ Stripe payment integration
+- [ ] 🚧 Batch mockup generation
+- [ ] 🚧 Team collaboration features
+- [ ] 🚧 Custom template creation tools
+- [ ] 🚧 Mobile app (iOS/Android)
+- [ ] 🚧 Public API for third-party integrations
+- [ ] 🚧 White-label solutions
+
+## 🏢 About NOVUMSOLVO
+
+**NOVUMSOLVO** is a technology company specializing in innovative SaaS solutions for creative professionals and businesses. We build cutting-edge tools that streamline workflows and enhance productivity.
+
+### Our Mission
+To democratize professional design tools and make high-quality mockup creation accessible to everyone.
+
+### Our Values
+- **Innovation**: Pushing the boundaries of what's possible
+- **Quality**: Delivering exceptional user experiences
+- **Security**: Protecting our users' data and privacy
+- **Accessibility**: Making powerful tools available to all
 
 ---
 
-Made with ❤️ by the MOCK IDEA team
+**© 2024 NOVUMSOLVO. All rights reserved.**
+
+Made with ❤️ by the NOVUMSOLVO team | [Website](https://novumsolvo.com) | [Contact](mailto:contact@novumsolvo.com)

@@ -407,3 +407,13 @@ proprietary/
 business-logic/
 algorithms/private/
 models/proprietary/
+
+# ================================
+# PROTECTED BUSINESS LOGIC
+# ================================
+.protected/
+*.backup
+proprietary/
+business-logic/
+algorithms/private/
+models/proprietary/
