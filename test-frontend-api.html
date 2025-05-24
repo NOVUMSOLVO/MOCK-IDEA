@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Frontend API Connection Test</h1>
+
+    <h2>Test Backend Connection</h2>
+    <button onclick="testHealth()">Test Health Endpoint</button>
+
+    <h2>Test Registration</h2>
+    <input type="email" id="testEmail" placeholder="test@example.com" value="frontend-test2@example.com">
+    <input type="password" id="testPassword" placeholder="password" value="password123">
+    <input type="text" id="testFirstName" placeholder="First Name" value="Test">
+    <input type="text" id="testLastName" placeholder="Last Name" value="User">
+    <button onclick="testRegister()">Test Register</button>
+
+    <h2>Test Login</h2>
+    <input type="email" id="loginEmail" placeholder="email" value="frontend-test2@example.com">
+    <input type="password" id="loginPassword" placeholder="password" value="password123">
+    <button onclick="testLogin()">Test Login</button>
+
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'http://localhost:3002';
+
+        function showResult(message, type = 'success') {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `result ${type}`;
+            resultDiv.textContent = new Date().toLocaleTimeString() + ': ' + message;
+            resultsDiv.appendChild(resultDiv);
+        }
+
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+                showResult(`✅ Health check successful: ${JSON.stringify(data)}`, 'success');
+            } catch (error) {
+                showResult(`❌ Health check failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testRegister() {
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+            const firstName = document.getElementById('testFirstName').value;
+            const lastName = document.getElementById('testLastName').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password, firstName, lastName })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResult(`✅ Registration successful: ${JSON.stringify(data)}`, 'success');
+                } else {
+                    showResult(`❌ Registration failed: ${JSON.stringify(data)}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Registration error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResult(`✅ Login successful: ${JSON.stringify(data)}`, 'success');
+                } else {
+                    showResult(`❌ Login failed: ${JSON.stringify(data)}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Login error: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

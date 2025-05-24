@@ -1,0 +1,409 @@
+# MOCK IDEA - Comprehensive .gitignore
+# Protects sensitive data and business logic
+
+# ================================
+# SENSITIVE CONFIGURATION FILES
+# ================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.staging
+.env.production
+
+# Environment variable files
+*.env
+.env.*
+!.env.example
+!.env.template
+
+# Configuration files with secrets
+config/production.json
+config/staging.json
+config/secrets.json
+secrets.json
+credentials.json
+
+# ================================
+# BUSINESS LOGIC & PROPRIETARY CODE
+# ================================
+
+# AI Models and Training Data
+/ai-service/models/
+/ai-service/training_data/
+/ai-service/weights/
+*.pkl
+*.h5
+*.pb
+*.onnx
+*.tflite
+
+# Proprietary Algorithms
+/backend/src/algorithms/
+/backend/src/proprietary/
+/backend/src/business-logic/
+/backend/src/core-engine/
+/ai-service/proprietary/
+/ai-service/algorithms/
+
+# Template Processing Logic
+/backend/src/template-engine/
+/backend/src/mockup-generator/
+/backend/src/image-processing/
+
+# Pricing and Business Rules
+/backend/src/pricing/
+/backend/src/subscription-logic/
+/backend/src/billing/
+pricing-rules.json
+business-rules.json
+
+# ================================
+# DATABASE & STORAGE
+# ================================
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Database dumps and backups
+*.sql
+*.dump
+backup/
+dumps/
+migrations/backup/
+
+# Redis dumps
+dump.rdb
+*.rdb
+
+# ================================
+# LOGS & MONITORING
+# ================================
+
+# Log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+.nyc_output/
+
+# ================================
+# NODE.JS & DEPENDENCIES
+# ================================
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# ================================
+# BUILD & DISTRIBUTION
+# ================================
+
+# Build directories
+build/
+dist/
+out/
+.next/
+.nuxt/
+.vuepress/dist/
+
+# Compiled binary addons
+build/Release/
+
+# TypeScript compiled files
+*.tsbuildinfo
+
+# ================================
+# DEVELOPMENT TOOLS
+# ================================
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ================================
+# TESTING
+# ================================
+
+# Test coverage
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.cache/
+
+# Test databases
+test.db
+test.sqlite
+test_*.db
+
+# ================================
+# CLOUD & DEPLOYMENT
+# ================================
+
+# AWS
+.aws/
+aws-exports.js
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+docker-compose.local.yml
+
+# Kubernetes
+k8s-secrets.yaml
+*.secret.yaml
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+
+# ================================
+# ASSETS & UPLOADS
+# ================================
+
+# User uploaded files
+uploads/
+user-content/
+temp-files/
+/frontend/public/uploads/
+/backend/uploads/
+
+# Generated assets
+generated/
+processed/
+thumbnails/
+optimized/
+
+# Large media files
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+
+# ================================
+# SECURITY & CERTIFICATES
+# ================================
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# SSH keys
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.pub
+
+# GPG keys
+*.gpg
+*.asc
+
+# ================================
+# TEMPORARY & CACHE FILES
+# ================================
+
+# Temporary directories
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+# Runtime files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# ================================
+# ANALYTICS & TRACKING
+# ================================
+
+# Analytics data
+analytics/
+metrics/
+tracking/
+usage-data/
+
+# ================================
+# BACKUP & ARCHIVE
+# ================================
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# ================================
+# CUSTOM EXCLUSIONS
+# ================================
+
+# Custom business files
+/docs/business-plan/
+/docs/financial/
+/docs/legal/
+/docs/internal/
+
+# Client data
+/client-data/
+/customer-data/
+/user-data/
+
+# Marketing assets
+/marketing/internal/
+/marketing/campaigns/
+/marketing/analytics/
+
+# Financial data
+/financial/
+/revenue/
+/costs/
+/pricing-strategy/
+
+# Legal documents
+/legal/contracts/
+/legal/agreements/
+/legal/confidential/
+
+# ================================
+# DEVELOPMENT NOTES
+# ================================
+
+# Personal notes
+notes.md
+todo.md
+ideas.md
+scratch.md
+personal/
+
+# Meeting notes
+meetings/
+calls/
+discussions/
+
+# Research and analysis
+research/
+analysis/
+competitive-analysis/
+
+# ================================
+# THIRD-PARTY INTEGRATIONS
+# ================================
+
+# Stripe
+stripe-config.json
+webhook-secrets.json
+
+# AWS S3
+s3-config.json
+bucket-policies.json
+
+# Email services
+email-templates/private/
+email-config.json
+
+# Social media
+social-media-keys.json
+oauth-secrets.json
+
+# ================================
+# MONITORING & OBSERVABILITY
+# ================================
+
+# APM and monitoring
+apm-config.json
+monitoring/
+observability/
+traces/
+
+# Error tracking
+error-reports/
+crash-dumps/
+debug-info/
+
+# ================================
+# PROTECTED BUSINESS LOGIC
+# ================================
+.protected/
+*.backup
+proprietary/
+business-logic/
+algorithms/private/
+models/proprietary/

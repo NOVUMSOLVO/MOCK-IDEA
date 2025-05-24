@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOCK IDEA - Login Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 2px solid #f5c6cb;
+            color: #721c24;
+        }
+        .user-info {
+            background: #e2e3e5;
+            border: 2px solid #d6d8db;
+            color: #383d41;
+            text-align: left;
+        }
+        .demo-creds {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">MI</div>
+            <div class="logo-text">MOCK IDEA</div>
+        </div>
+        
+        <div class="success-icon">🎉</div>
+        <h1>Authentication System Test</h1>
+        <p class="description">
+            Test the complete authentication flow with our backend API. 
+            This demonstrates that login, registration, and user management are working perfectly!
+        </p>
+        
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" id="email" placeholder="testuser@example.com" value="testuser@example.com">
+        </div>
+        
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" id="password" placeholder="password123" value="password123">
+        </div>
+        
+        <button onclick="testLogin()">🔐 Test Login</button>
+        <button onclick="testRegister()">📝 Test Register</button>
+        <button onclick="getProfile()">👤 Get Profile</button>
+        
+        <div class="demo-creds">
+            <strong>Demo Credentials:</strong><br>
+            Email: testuser@example.com<br>
+            Password: password123
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3002';
+        let currentToken = localStorage.getItem('authToken');
+        
+        function showResult(message, type = 'success') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            resultDiv.textContent = message;
+        }
+        
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentToken = data.data.token;
+                    localStorage.setItem('authToken', currentToken);
+                    showResult(`✅ LOGIN SUCCESSFUL!
+Welcome back, ${data.data.user.firstName || data.data.user.email}!
+
+User Details:
+- Email: ${data.data.user.email}
+- Name: ${data.data.user.firstName} ${data.data.user.lastName}
+- Role: ${data.data.user.role}
+- Subscription: ${data.data.user.subscriptionTier}
+- Credits: ${data.data.user.creditsRemaining}
+
+Token: ${currentToken.substring(0, 50)}...
+
+🎉 Authentication is working perfectly!`, 'success');
+                } else {
+                    showResult(`❌ Login failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testRegister() {
+            const email = `test${Date.now()}@example.com`;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        firstName: 'Test', 
+                        lastName: 'User' 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentToken = data.data.token;
+                    localStorage.setItem('authToken', currentToken);
+                    showResult(`✅ REGISTRATION SUCCESSFUL!
+New account created: ${email}
+
+User Details:
+- Email: ${data.data.user.email}
+- Name: ${data.data.user.firstName} ${data.data.user.lastName}
+- Subscription: ${data.data.user.subscriptionTier}
+- Credits: ${data.data.user.creditsRemaining}
+
+Token: ${currentToken.substring(0, 50)}...
+
+🎉 You can now login with these credentials!`, 'success');
+                } else {
+                    showResult(`❌ Registration failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function getProfile() {
+            if (!currentToken) {
+                showResult('❌ Please login first to get profile', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/me`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${currentToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const user = data.data;
+                    showResult(`✅ PROFILE RETRIEVED SUCCESSFULLY!
+
+Complete User Profile:
+- ID: ${user.id}
+- Email: ${user.email}
+- Name: ${user.firstName} ${user.lastName}
+- Role: ${user.role}
+- Subscription: ${user.subscriptionTier}
+- Credits Remaining: ${user.creditsRemaining}
+- Account Status: ${user.isActive ? 'Active' : 'Inactive'}
+- Email Verified: ${user.emailVerified ? 'Yes' : 'No'}
+- Member Since: ${new Date(user.createdAt).toLocaleDateString()}
+- Last Updated: ${new Date(user.updatedAt).toLocaleDateString()}
+
+🎉 All authentication endpoints are working!`, 'user-info');
+                } else {
+                    showResult(`❌ Failed to get profile: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Check if user is already logged in
+        if (currentToken) {
+            showResult(`ℹ️ You have a saved authentication token.
+Click "Get Profile" to verify it's still valid.
+
+Token: ${currentToken.substring(0, 50)}...`, 'user-info');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SubscriptionTier {
+  FREE
+  BASIC
+  PRO
+  UNLIMITED
+}
+
+enum MockupStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id                String           @id @default(cuid())
+  email             String           @unique
+  password          String
+  firstName         String?
+  lastName          String?
+  role              UserRole         @default(USER)
+  subscriptionTier  SubscriptionTier @default(FREE)
+  creditsRemaining  Int              @default(3)
+  isActive          Boolean          @default(true)
+  stripeCustomerId  String?
+  brandKit          Json?            // Brand guidelines and preferences
+  emailVerified     Boolean          @default(false)
+  emailVerifyToken  String?
+  resetPasswordToken String?
+  resetPasswordExpires DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  // Relations
+  logos             Logo[]
+  mockups           Mockup[]
+  templates         Template[]
+  projects          Project[]
+  subscriptions     Subscription[]
+  usageHistory      UsageHistory[]
+
+  @@map("users")
+}
+
+model Logo {
+  id           String   @id @default(cuid())
+  userId       String
+  filename     String
+  originalUrl  String
+  thumbnailUrl String?
+  fileSize     Int
+  mimeType     String
+  aiAnalysis   Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mockups Mockup[]
+
+  @@map("logos")
+}
+
+model Template {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  imageUrl     String
+  thumbnailUrl String
+  category     String
+  tags         String[] // For better searchability and organization
+  isPremium    Boolean  @default(false)
+  popularity   Int      @default(0) // Track usage for recommendations
+  isActive     Boolean  @default(true)
+  aiAnalysis   Json?    // AI analysis for logo placement
+  metadata     Json?    // Additional template configuration
+  createdBy    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  creator User?    @relation(fields: [createdBy], references: [id])
+  mockups Mockup[]
+
+  @@map("templates")
+}
+
+model Mockup {
+  id              String       @id @default(cuid())
+  userId          String
+  logoId          String
+  templateId      String
+  status          MockupStatus @default(PENDING)
+  renderUrl       String?
+  thumbnailUrl    String?
+  customizations  Json?
+  processingTime  Int?
+  errorMessage    String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  // Relations
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  logo     Logo     @relation(fields: [logoId], references: [id], onDelete: Cascade)
+  template Template @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@map("mockups")
+}
+
+model Subscription {
+  id                String   @id @default(cuid())
+  userId            String
+  stripeSubscriptionId String @unique
+  status            String
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  cancelAtPeriodEnd  Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+model UsageHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  details   Json?
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("usage_history")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  mockupIds   String[] // Array of mockup IDs for organization
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("projects")
+}
