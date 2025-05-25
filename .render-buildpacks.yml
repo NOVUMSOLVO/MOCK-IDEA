@@ -1,0 +1,4 @@
+# Force Render to use Blueprint mode instead of Docker
+# This file tells Render to ignore Docker detection and use render.yaml
+
+buildpacks: []
