@@ -1,23 +1,21 @@
-# Multi-stage Dockerfile for MOCK IDEA
-# This Dockerfile builds the frontend service by default
-# Use build args to specify which service to build
+# Dockerfile for MOCK IDEA Frontend
+# This builds the frontend service for deployment
 
-ARG SERVICE=frontend
 FROM node:18-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
 
-# Copy root package files first
+# Copy package files
 COPY package*.json ./
+COPY frontend/package*.json ./frontend/
 
-# Copy service-specific package files
-ARG SERVICE
-COPY ${SERVICE}/package*.json ./${SERVICE}/
-WORKDIR /app/${SERVICE}
+# Install root dependencies first
+RUN npm ci --only=production
 
-# Install dependencies
+# Install frontend dependencies
+WORKDIR /app/frontend
 RUN npm ci --only=production
 
 # Rebuild the source code only when needed
@@ -25,37 +23,41 @@ FROM base AS builder
 WORKDIR /app
 
 # Copy dependencies from deps stage
-ARG SERVICE
-COPY --from=deps /app/${SERVICE}/node_modules ./${SERVICE}/node_modules
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/frontend/node_modules ./frontend/node_modules
 
-# Copy service source code
-COPY ${SERVICE}/ ./${SERVICE}/
-WORKDIR /app/${SERVICE}
+# Copy source code
+COPY frontend/ ./frontend/
+WORKDIR /app/frontend
 
 # Build the application
 RUN npm run build
 
-# Production image, copy all the files and run the service
+# Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
 
-# Create user for security
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 appuser
+RUN adduser --system --uid 1001 nextjs
 
 # Copy built application
-ARG SERVICE
-COPY --from=builder /app/${SERVICE} ./
+COPY --from=builder /app/frontend/public ./public
 
-# Set ownership
-RUN chown -R appuser:nodejs /app
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
 
-USER appuser
+# Automatically leverage output traces to reduce image size
+COPY --from=builder --chown=nextjs:nodejs /app/frontend/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/frontend/.next/static ./.next/static
 
-# Expose port
+USER nextjs
+
 EXPOSE 3000
 
-# Default command (can be overridden)
-CMD ["npm", "start"]
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+
+CMD ["node", "server.js"]
