@@ -112,7 +112,7 @@ node_modules/
 jspm_packages/
 
 # Package manager files
-package-lock.json
+# package-lock.json (needed for deployment)
 yarn.lock
 pnpm-lock.yaml
 
