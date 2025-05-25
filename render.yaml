@@ -30,6 +30,10 @@ services:
           type: web
           name: mock-idea-frontend
           property: host
+      - key: S3_BUCKET_NAME
+        value: mock-idea-demo-bucket
+      - key: AWS_REGION
+        value: us-east-1
     healthCheckPath: /health
 
   # Frontend Web Service
@@ -47,6 +51,13 @@ services:
           type: web
           name: mock-idea-backend
           property: host
+      - key: NEXTAUTH_URL
+        fromService:
+          type: web
+          name: mock-idea-frontend
+          property: host
+      - key: NEXTAUTH_SECRET
+        generateValue: true
 
   # AI Service
   - type: web
