@@ -5,9 +5,9 @@ services:
   # Backend API Service
   - type: web
     name: mock-idea-backend
-    env: node
+    runtime: node
     plan: starter
-    buildCommand: cd backend && npm install && npm run build
+    buildCommand: cd backend && npm ci && npm run build
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
@@ -35,9 +35,9 @@ services:
   # Frontend Web Service
   - type: web
     name: mock-idea-frontend
-    env: node
+    runtime: node
     plan: starter
-    buildCommand: cd frontend && npm install && npm run build
+    buildCommand: cd frontend && npm ci && npm run build
     startCommand: cd frontend && npm start
     envVars:
       - key: NODE_ENV
@@ -51,7 +51,7 @@ services:
   # AI Service
   - type: web
     name: mock-idea-ai
-    env: python
+    runtime: python
     plan: starter
     buildCommand: cd ai-service && pip install -r requirements.txt
     startCommand: cd ai-service && python main.py
